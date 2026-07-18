@@ -47,7 +47,6 @@ impl Framebuffer {
     /// Upload the small framebuffer to the GPU and draw it stretched to fill the
     /// window (nearest-neighbor, so cells stay crisp squares). This is what lets
     /// the framebuffer be smaller than the window.
-    #[allow(dead_code)]
     pub fn swap_buffers(&self, window: &mut RaylibHandle, thread: &RaylibThread) {
         if let Ok(texture) = window.load_texture_from_image(thread, &self.color_buffer) {
             let scale = window.get_screen_width() as f32 / self.width as f32;
@@ -57,6 +56,7 @@ impl Framebuffer {
         }
     }
 
+    #[allow(dead_code)]
     pub fn render_to_file(&self, file_path: &str) {
         self.color_buffer.export_image(file_path);
     }
