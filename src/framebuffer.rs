@@ -31,6 +31,15 @@ impl Framebuffer {
         }
     }
 
+    /// Read the color of a cell. Uses the same bottom-left origin / Y-flip
+    /// convention as `set_pixel`, so `get_color` reads back what `set_pixel` wrote.
+    /// Used by the Game of Life engine to inspect each cell's state.
+    #[allow(dead_code)]
+    pub fn get_color(&self, x: i32, y: i32) -> Color {
+        let flipped_y = self.height - 1 - y;
+        self.color_buffer.get_color(x, flipped_y)
+    }
+
     pub fn set_current_color(&mut self, color: Color) {
         self.current_color = color;
     }
