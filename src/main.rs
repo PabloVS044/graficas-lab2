@@ -1,6 +1,6 @@
 mod framebuffer;
+mod conway;
 
-use raylib::prelude::*;
 use framebuffer::Framebuffer;
 
 fn main() {
@@ -21,17 +21,23 @@ fn main() {
     rl.set_target_fps(12);
 
     let mut fb = Framebuffer::new(GRID_W, GRID_H);
-    fb.set_current_color(Color::BLACK);
+    fb.set_current_color(conway::DEAD);
     fb.clear();
 
-    // Temporary: a diagonal to confirm the low-res buffer scales to the window.
-    // The game logic will replace this once Conway's rules are in place.
-    fb.set_current_color(Color::WHITE);
-    for i in 0..GRID_W.min(GRID_H) {
-        fb.set_pixel(i, i);
+    // Temporary seed to show the engine running: a glider and a blinker.
+    // A proper organism library and initial pattern come next.
+    fb.set_current_color(conway::ALIVE);
+    for &(x, y) in &[(11, 80), (12, 79), (10, 78), (11, 78), (12, 78)] {
+        fb.set_pixel(x, y); // glider
+    }
+    for &(x, y) in &[(50, 50), (51, 50), (52, 50)] {
+        fb.set_pixel(x, y); // blinker
     }
 
     while !rl.window_should_close() {
+        // Draw the current generation, then compute the next one.
+        // The framebuffer is never cleared: the game logic owns every cell.
         fb.swap_buffers(&mut rl, &thread);
+        conway::step(&mut fb);
     }
 }
