@@ -1,5 +1,6 @@
 mod framebuffer;
 mod conway;
+mod patterns;
 
 use framebuffer::Framebuffer;
 
@@ -17,26 +18,36 @@ fn main() {
         .title("Lab 2 - Conway's Game of Life")
         .build();
 
-    // One frame per generation; 12 fps is a comfortable viewing speed.
     rl.set_target_fps(12);
 
     let mut fb = Framebuffer::new(GRID_W, GRID_H);
     fb.set_current_color(conway::DEAD);
     fb.clear();
 
-    // Temporary seed to show the engine running: a glider and a blinker.
-    // A proper organism library and initial pattern come next.
-    fb.set_current_color(conway::ALIVE);
-    for &(x, y) in &[(11, 80), (12, 79), (10, 78), (11, 78), (12, 78)] {
-        fb.set_pixel(x, y); // glider
-    }
-    for &(x, y) in &[(50, 50), (51, 50), (52, 50)] {
-        fb.set_pixel(x, y); // blinker
-    }
+    // Still lifes
+    patterns::block(&mut fb, 5, 5);
+    patterns::beehive(&mut fb, 14, 5);
+    patterns::loaf(&mut fb, 24, 5);
+    patterns::boat(&mut fb, 34, 5);
+    patterns::tub(&mut fb, 42, 5);
+
+    // Oscillators
+    patterns::blinker(&mut fb, 6, 20);
+    patterns::toad(&mut fb, 14, 20);
+    patterns::beacon(&mut fb, 24, 20);
+    patterns::pulsar(&mut fb, 40, 18);
+    patterns::pentadecathlon(&mut fb, 60, 24);
+
+    // Spaceships
+    patterns::glider(&mut fb, 5, 55);
+    patterns::lwss(&mut fb, 20, 55);
+    patterns::mwss(&mut fb, 40, 55);
+    patterns::hwss(&mut fb, 60, 55);
+
+    // Gun
+    patterns::gosper_gun(&mut fb, 5, 80);
 
     while !rl.window_should_close() {
-        // Draw the current generation, then compute the next one.
-        // The framebuffer is never cleared: the game logic owns every cell.
         fb.swap_buffers(&mut rl, &thread);
         conway::step(&mut fb);
     }
