@@ -166,3 +166,53 @@ pub fn gosper_gun(fb: &mut Framebuffer, ox: i32, oy: i32) {
     ];
     place(fb, ox, oy, &cells);
 }
+
+// ---------------------------------------------------------------------------
+// Initial pattern
+// ---------------------------------------------------------------------------
+
+/// Seed the board with a creative arrangement that fills a good part of the
+/// screen: a top band of still lifes, a band of oscillators, a fleet of
+/// spaceships, and two glider guns that keep feeding the board. The grid wraps,
+/// so ships and gliders never leave.
+pub fn seed(fb: &mut Framebuffer) {
+    // Top band — still lifes.
+    block(fb, 3, 3);
+    beehive(fb, 12, 3);
+    loaf(fb, 22, 3);
+    boat(fb, 32, 3);
+    tub(fb, 40, 3);
+    block(fb, 48, 3);
+    beehive(fb, 56, 4);
+    boat(fb, 66, 3);
+    tub(fb, 74, 3);
+    loaf(fb, 82, 4);
+    block(fb, 92, 3);
+
+    // Oscillator band.
+    blinker(fb, 4, 24);
+    toad(fb, 12, 24);
+    beacon(fb, 20, 24);
+    pulsar(fb, 30, 18);
+    pentadecathlon(fb, 54, 26);
+    pulsar(fb, 72, 18);
+    blinker(fb, 90, 24);
+    beacon(fb, 4, 36);
+    toad(fb, 90, 34);
+
+    // Spaceship fleet.
+    glider(fb, 5, 50);
+    glider(fb, 11, 52);
+    glider(fb, 17, 54);
+    lwss(fb, 35, 48);
+    mwss(fb, 35, 58);
+    hwss(fb, 35, 68);
+    glider(fb, 60, 50);
+    glider(fb, 66, 52);
+    lwss(fb, 80, 55);
+    mwss(fb, 86, 64);
+
+    // Guns that keep the board alive.
+    gosper_gun(fb, 3, 78);
+    gosper_gun(fb, 55, 84);
+}

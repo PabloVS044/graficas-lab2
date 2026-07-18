@@ -24,28 +24,7 @@ fn main() {
     fb.set_current_color(conway::DEAD);
     fb.clear();
 
-    // Still lifes
-    patterns::block(&mut fb, 5, 5);
-    patterns::beehive(&mut fb, 14, 5);
-    patterns::loaf(&mut fb, 24, 5);
-    patterns::boat(&mut fb, 34, 5);
-    patterns::tub(&mut fb, 42, 5);
-
-    // Oscillators
-    patterns::blinker(&mut fb, 6, 20);
-    patterns::toad(&mut fb, 14, 20);
-    patterns::beacon(&mut fb, 24, 20);
-    patterns::pulsar(&mut fb, 40, 18);
-    patterns::pentadecathlon(&mut fb, 60, 24);
-
-    // Spaceships
-    patterns::glider(&mut fb, 5, 55);
-    patterns::lwss(&mut fb, 20, 55);
-    patterns::mwss(&mut fb, 40, 55);
-    patterns::hwss(&mut fb, 60, 55);
-
-    // Gun
-    patterns::gosper_gun(&mut fb, 5, 80);
+    patterns::seed(&mut fb);
 
     while !rl.window_should_close() {
         fb.swap_buffers(&mut rl, &thread);
